@@ -48,7 +48,8 @@ t_map	*get_map(char *filename);
 
 void	init_map_file(t_map *map_file);
 int	has_non_space(char *nbr);
-t_fifo	*get_file_content(char *filename)
+t_fifo	*get_file_content(char *filename);
+char	**convert_fifo_to_matriz(t_fifo *file_content);
 
 
 
