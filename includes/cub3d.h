@@ -8,6 +8,7 @@
 # include "../minilibx-linux/mlx.h"
 # include "../libft/includes/libft.h"
 # include "./fifo.h"
+# include "game_event.h"
 
 # define LOOK_LEFT  65361 
 # define LOOK_RIGHT 65363
@@ -69,5 +70,6 @@ char	**convert_fifo_to_matriz(t_fifo *file_content);
 void	prog_cleanup(t_data *data);
 t_data	*init_data(t_data *data, t_map *map);
 bool	init_libx(t_data *data);
+void	game_loop(t_data *data);
 
 #endif

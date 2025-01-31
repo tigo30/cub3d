@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 08:21:12 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/01/31 01:49:42 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:01:53 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ int	main(int argc, char **argv)
     	error("The program requires exactly one map file");
 	map_file = get_map(argv[1]);
 	if (init_libx(init_data(&data, map_file)) == false)
-		return (prog_cleanup(&data), EXIT_FAILURE);
+	{
+		prog_cleanup(&data);
+		exit(EXIT_FAILURE);
+	}
+	game_loop(&data);
 	// // Exibe informações do mapa (substitua pelos campos reais de `t_map`)
 	// printf("Map loaded successfully!\n");
 	// printf("Width: %d\n", map_file->width);
@@ -43,7 +47,6 @@ int	main(int argc, char **argv)
 	// free_map_file(map_file);
 
 	// return (0);
-	return (EXIT_SUCCESS);
 }
 
 

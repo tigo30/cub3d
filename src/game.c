@@ -1,26 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 16:52:14 by joandre-          #+#    #+#             */
-/*   Updated: 2025/01/31 17:08:46 by joandre-         ###   ########.fr       */
+/*   Created: 2025/01/31 17:34:55 by joandre-          #+#    #+#             */
+/*   Updated: 2025/01/31 17:57:49 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	prog_cleanup(t_data *data)
+static int	mouse_close(t_data *data)
+{
+	prog_cleanup(data);
+	exit(EXIT_SUCCESS);
+}
+
+static int	key_close(int keysym, t_data *data)
+{
+	if (keysym == XK_Escape)
+	{
+		prog_cleanup(data);
+		exit(EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
+}
+
+static void	hook_register(t_data *data)
+{
+	mlx_hook(data->window, 3, 1L << 1, key_close, data);
+	mlx_hook(data->window, 17, 1L << 17, mouse_close, data);
+}
+
+void	game_loop(t_data *data)
 {
 	if (data == NULL)
 		return ;
-	if (data->img.img)
-		mlx_destroy_image(data->init, data->img.img);
-	if (data->window)
-		mlx_destroy_window(data->init, data->window);
-	mlx_destroy_display(data->init);
-	free(data->init);
-	free_map(data->map);
+	hook_register(data);
+	mlx_loop(data->init);
 }

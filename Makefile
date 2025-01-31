@@ -6,7 +6,7 @@
 #    By: joandre- <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/31 01:29:41 by joandre-          #+#    #+#              #
-#    Updated: 2025/01/31 02:28:29 by joandre-         ###   ########.fr        #
+#    Updated: 2025/01/31 17:11:36 by joandre-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ $(MLX):
 	make -s -C minilibx-linux
 
 run: $(NAME)
-	valgrind $(VFLAG) ./$(NAME)
+	valgrind $(VFLAG) ./$(NAME) debug.cub
 
 clean:
 	rm -rf $(OBJ)
