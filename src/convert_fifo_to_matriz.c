@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert_fifo_to _matriz.c                          :+:      :+:    :+:   */
+/*   convert_fifo_to_matriz.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 09:39:57 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/01/27 23:41:24 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:00:45 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
 
 char	*pad_line_with_spaces(char *line, size_t target_length)
 {

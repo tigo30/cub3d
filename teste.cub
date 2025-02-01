@@ -1,0 +1,12 @@
+NO ./images/graystone.xpm   
+SO ./images/purplestone.xpm
+EA ./images/bluestone.xpm
+WE ./images/mossystone.xpm
+C 65,105,225
+F 177,156,217
+
+
+1111111111111111111111111
+1000000000110000000000111
+1011000N00000000011000001
+1111111111111111111111111

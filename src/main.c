@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 08:21:12 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/01/31 18:01:53 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:45:41 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,61 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	game_loop(&data);
+	}
+
+
+
+// int main(int argc, char **argv)
+// {
+//     t_map *map_file;
+
+//     if (argc != 2)
+//     {
+//         printf("Usage: %s <map_file>\n", argv[0]);
+//         return 1;
+//     }
+
+//     map_file = get_map(argv[1]);
+//     if (!map_file)
+//     {
+//         printf("Failed to load the map.\n");
+//         return 1;
+//     }
+
+//     // Exemplo: imprime o conteúdo do mapa (ajuste conforme necessário)
+//     for (int i = 0; map_file->matriz[i]; i++)
+//     {
+//         printf("%s\n", map_file->matriz[i]);
+//     }
+
+//     // Lembre-se de liberar a memória, se aplicável
+//     free_map(map_file);
+    
+//     return 0;
+// }
+
+
+
+// int	main(int argc, char **argv)
+// {
+// 	t_data	data;
+// 	t_map	*map_file;
+
+// 	if (argc != 2)
+//     	error("The program requires exactly one map file");
+// 	map_file = get_map(argv[1]);
+// 	if (init_libx(init_data(&data, map_file)) == false)
+// 	{
+// 		prog_cleanup(&data);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	game_loop(&data);
+
+
+
+
+
+	
 	// // Exibe informações do mapa (substitua pelos campos reais de `t_map`)
 	// printf("Map loaded successfully!\n");
 	// printf("Width: %d\n", map_file->width);
@@ -47,7 +102,7 @@ int	main(int argc, char **argv)
 	// free_map_file(map_file);
 
 	// return (0);
-}
+
 
 
 

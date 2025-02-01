@@ -12,11 +12,11 @@
 
 # define LOOK_LEFT  65361 
 # define LOOK_RIGHT 65363
-# define UP 119  //w
-# define DOWN 115 //s
-# define LEFT 97 //a
-# define RIGHT 100 //d
-# define EXIT 65307 //esq
+# define UP 119 
+# define DOWN 115
+# define LEFT 97
+# define RIGHT 100
+# define EXIT 65307
 
 # define TILE_SIZE 50
 # define HEIGHT 600
@@ -38,6 +38,12 @@ typedef struct s_map
 	int		player_y;
     t_fifo	*file_content;
 }	t_map;
+
+typedef struct s_coord
+{
+	int	y;
+	int	x;
+}	t_coord;
 
 typedef struct s_img
 {
@@ -71,5 +77,13 @@ void	prog_cleanup(t_data *data);
 t_data	*init_data(t_data *data, t_map *map);
 bool	init_libx(t_data *data);
 void	game_loop(t_data *data);
+void	calculate_map_size(t_map *map_file);
+void	validate_map_borders(t_map *map_file);
+void	validate_player(t_map *map);
+void	check_map(t_map *map_file);
+
+
+
+
 
 #endif
