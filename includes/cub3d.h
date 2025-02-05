@@ -1,14 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 00:04:42 by joandre-          #+#    #+#             */
+/*   Updated: 2025/02/05 00:43:05 by joandre-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <stdbool.h>
-# include <fcntl.h> 
-# include "../minilibx-linux/mlx.h"
 # include "../libft/includes/libft.h"
-# include "./fifo.h"
-# include "game_event.h"
+# include "../minilibx-linux/mlx.h"
+# include "fifo.h"
+# include "game.h"
+# include <fcntl.h>
+# include <X11/keysym.h>
 
 # define LOOK_LEFT  65361 
 # define LOOK_RIGHT 65363
@@ -18,9 +28,9 @@
 # define RIGHT 100
 # define EXIT 65307
 
-# define TILE_SIZE 50
-# define HEIGHT 600
-# define WIDTH 800
+# define HEIGHT 800
+# define WIDTH 600
+# define TILE_SIZE 64
 
 typedef struct s_map
 {
@@ -36,7 +46,7 @@ typedef struct s_map
 	char	player_direction;
 	int		player_x;
 	int		player_y;
-    t_fifo	*file_content;
+	t_fifo	*file_content;
 }	t_map;
 
 typedef struct s_coord
@@ -58,7 +68,7 @@ typedef struct s_data
 {
 	void	*init;
 	void	*window;
-	t_img	img;
+	t_img	display;
 	t_map	*map;
 }	t_data;
 
@@ -81,9 +91,5 @@ void	calculate_map_size(t_map *map_file);
 void	validate_map_borders(t_map *map_file);
 void	validate_player(t_map *map);
 void	check_map(t_map *map_file);
-
-
-
-
 
 #endif

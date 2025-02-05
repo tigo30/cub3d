@@ -6,13 +6,14 @@
 #    By: joandre- <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/31 01:29:41 by joandre-          #+#    #+#              #
-#    Updated: 2025/01/31 17:11:36 by joandre-         ###   ########.fr        #
+#    Updated: 2025/02/05 00:08:13 by joandre-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-CLINK = -L./libft -lft -L./minilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+CLINK = -L libft -lft -L minilibx-linux -lmlx_Linux \
+		-L /usr/lib -I mlx_linux -lXext -lX11 -lm -lz
 LIBFT = libft/libft.a
 MLX = minilibx-linux/libmlx-Linux.a
 NAME = cub3d
@@ -26,20 +27,21 @@ $(NAME): $(LIBFT) $(MLX) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(CLINK) -o $(NAME)
 
 $(LIBFT):
-	make -s -C libft
-	make clean -s -C libft
+	make -sC libft
+	make clean -sC libft
 $(MLX):
-	make -s -C minilibx-linux
+	make -sC minilibx-linux
 
 run: $(NAME)
-	valgrind $(VFLAG) ./$(NAME) debug.cub
+	valgrind $(VFLAG) ./$(NAME) maps/debug.cub
 
 clean:
 	rm -rf $(OBJ)
 
 fclean: clean
 	rm -rf $(NAME)
-	make fclean -s -C libft
+	make fclean -sC libft
+	make clean -sC minilibx-linux
 
 re: fclean all
 
