@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 08:21:12 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/02/05 00:45:19 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/09 17:00:18 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 		error("The program requires exactly one map file");
 	map_file = get_map(argv[1]);
 	if (init_libx(init_data(&data, map_file)))
-		game_loop(&data);
+		execute(&data);
 	prog_cleanup(&data);
 	error("Program left mlx_loop");
 }

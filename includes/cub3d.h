@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:42 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/05 00:43:05 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/09 19:52:10 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,10 @@
 # include "../libft/includes/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include "fifo.h"
-# include "game.h"
+# include "raycast.h"
+# include <stdbool.h>
 # include <fcntl.h>
 # include <X11/keysym.h>
-
-# define LOOK_LEFT  65361 
-# define LOOK_RIGHT 65363
-# define UP 119 
-# define DOWN 115
-# define LEFT 97
-# define RIGHT 100
-# define EXIT 65307
-
-# define HEIGHT 800
-# define WIDTH 600
-# define TILE_SIZE 64
 
 typedef struct s_map
 {
@@ -66,10 +55,12 @@ typedef struct s_img
 
 typedef struct s_data
 {
-	void	*init;
-	void	*window;
-	t_img	display;
-	t_map	*map;
+	void		*init;
+	void		*window;
+	t_img		display;
+	t_map		*map;
+	t_ray		*ray;
+	t_player	*player;
 }	t_data;
 
 void	error(char *error);
@@ -83,13 +74,19 @@ void	init_map_file(t_map *map_file);
 int		has_non_space(char *nbr);
 t_fifo	*get_file_content(char *filename);
 char	**convert_fifo_to_matriz(t_fifo *file_content);
-void	prog_cleanup(t_data *data);
-t_data	*init_data(t_data *data, t_map *map);
-bool	init_libx(t_data *data);
-void	game_loop(t_data *data);
 void	calculate_map_size(t_map *map_file);
 void	validate_map_borders(t_map *map_file);
 void	validate_player(t_map *map);
 void	check_map(t_map *map_file);
+void	prog_cleanup(t_data *cub);
+t_data	*init_data(t_data *cub, t_map *map);
+bool	init_libx(t_data *cub);
+void	game_loop(t_data *cub);
+void	init_player(t_data *cub);
+int		check_intersection(float angle, float *inter, float *step, bool flag);
+bool	unit_circle(float angle, char c);
+bool	wall_hit(float x, float y, t_map *map);
+void	raycasting(t_data *cub);
+bool	execute(t_data *cub);
 
 #endif

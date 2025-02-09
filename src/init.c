@@ -6,42 +6,44 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:14:44 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/05 00:46:49 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/09 01:55:33 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-t_data	*init_data(t_data *data, t_map *map)
+t_data	*init_data(t_data *cub, t_map *map)
 {
-	if (data == NULL)
+	if (cub == NULL)
 		return (NULL);
-	ft_bzero((void *)data, sizeof(data));
-	data->init = NULL;
-	data->window = NULL;
-	data->display.img = NULL;
-	data->display.addr = NULL;
-	data->map = map;
-	return (data);
+	ft_bzero((void *)cub, sizeof(cub));
+	cub->init = NULL;
+	cub->window = NULL;
+	cub->display.img = NULL;
+	cub->display.addr = NULL;
+	cub->map = map;
+	cub->ray = NULL;
+	cub->player = NULL;
+	return (cub);
 }
 
-bool	init_libx(t_data *data)
+bool	init_libx(t_data *cub)
 {
-	if (data == NULL)
+	if (cub == NULL)
 		return (false);
-	data->init = mlx_init();
-	if (data->init == NULL)
+	cub->init = mlx_init();
+	if (cub->init == NULL)
 		return (false);
-	data->window = mlx_new_window(data->init, HEIGHT, WIDTH, "cub3d");
-	if (data->window == NULL)
+	cub->window = mlx_new_window(cub->init, HEIGHT, WIDTH, "cub3d");
+	if (cub->window == NULL)
 		return (false);
-	data->display.img = mlx_new_image(data->init, HEIGHT, WIDTH);
-	if (data->display.img == NULL)
+	cub->display.img = mlx_new_image(cub->init, HEIGHT, WIDTH);
+	if (cub->display.img == NULL)
 		return (false);
-	data->display.addr = mlx_get_data_addr(data->display.img,
-			&data->display.bpp, &data->display.size_line,
-			&data->display.endian);
-	if (data->display.addr == NULL)
+	cub->display.addr = mlx_get_data_addr(cub->display.img,
+			&cub->display.bpp, &cub->display.size_line,
+			&cub->display.endian);
+	if (cub->display.addr == NULL)
 		return (false);
 	return (true);
 }
