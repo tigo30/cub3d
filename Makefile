@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joandre- <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/31 01:29:41 by joandre-          #+#    #+#              #
-#    Updated: 2025/02/05 00:08:13 by joandre-         ###   ########.fr        #
+#    Updated: 2025/02/13 22:28:02 by tgrunho-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 CLINK = -L libft -lft -L minilibx-linux -lmlx_Linux \
 		-L /usr/lib -I mlx_linux -lXext -lX11 -lm -lz
 LIBFT = libft/libft.a

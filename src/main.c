@@ -6,54 +6,107 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 08:21:12 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/02/09 17:00:18 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/13 23:29:03 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+ #include "../includes/cub3d.h"
 
-int	main(int argc, char **argv)
+// int	main(int argc, char **argv)
+// {
+// 	t_data	data;
+// 	t_map	*map_file;
+
+// 	if (argc != 2)
+// 		error("The program requires exactly one map file");
+// 	map_file = get_map(argv[1]);
+// 	if (init_libx(init_data(&data, map_file)))
+// 		execute(&data);
+// 	prog_cleanup(&data);
+// 	free_map(map_file);
+// 	error("Program left mlx_loop");
+// 	return (0);
+// }
+
+
+
+
+#include <stdio.h>
+
+void print_map_matrix(char **matrix, int height)
 {
-	t_data	data;
-	t_map	*map_file;
-
-	if (argc != 2)
-		error("The program requires exactly one map file");
-	map_file = get_map(argv[1]);
-	if (init_libx(init_data(&data, map_file)))
-		execute(&data);
-	prog_cleanup(&data);
-	error("Program left mlx_loop");
+    if (!matrix)
+    {
+        printf("Matriz do mapa está vazia.\n");
+        return;
+    }
+    printf("\nMatriz do Mapa:\n");
+    for (int i = 0; i < height; i++)
+        printf("%s\n", matrix[i]);
 }
 
-// int main(int argc, char **argv)
-// {
-//     t_map *map_file;
+void print_map_info(t_map *map_file)
+{
+    if (!map_file)
+    {
+        printf("Erro ao carregar o ficheiro do mapa.\n");
+        return;
+    }
 
-//     if (argc != 2)
-//     {
-//         printf("Usage: %s <map_file>\n", argv[0]);
-//         return 1;
-//     }
+    printf("=== Informações do Mapa ===\n");
+    printf("Largura: %d\n", map_file->width);
+    printf("Altura: %d\n", map_file->height);
 
-//     map_file = get_map(argv[1]);
-//     if (!map_file)
-//     {
-//         printf("Failed to load the map.\n");
-//         return 1;
-//     }
+    printf("\n=== Texturas ===\n");
+    printf("Norte: %s\n", map_file->texture_no ? map_file->texture_no : "Não definida");
+    printf("Sul: %s\n", map_file->texture_so ? map_file->texture_so : "Não definida");
+    printf("Este: %s\n", map_file->texture_ea ? map_file->texture_ea : "Não definida");
+    printf("Oeste: %s\n", map_file->texture_we ? map_file->texture_we : "Não definida");
 
-//     // Exemplo: imprime o conteúdo do mapa (ajuste conforme necessário)
-//     for (int i = 0; map_file->matriz[i]; i++)
-//     {
-//         printf("%s\n", map_file->matriz[i]);
-//     }
+    printf("\n=== Cores ===\n");
+    printf("Teto (Ceil): %d\n", map_file->ceil_color);
+    printf("Chão (Floor): %d\n", map_file->floor_color);
 
-//     // Lembre-se de liberar a memória, se aplicável
-//     free_map(map_file);
-    
-//     return 0;
-// }
+    printf("\n=== Posição do Jogador ===\n");
+    if (map_file->player_x != -1 && map_file->player_y != -1)
+        printf("Posição: (%d, %d)\nDireção: %c\n", map_file->player_x, map_file->player_y, map_file->player_direction);
+    else
+        printf("Posição do jogador não encontrada no mapa.\n");
+
+    print_map_matrix(map_file->matriz, map_file->height);
+}
+
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        printf("Uso: %s <mapa.cub>\n", argv[0]);
+        return (1);
+    }
+
+    t_map *map_file = get_map(argv[1]);
+    if (!map_file)
+    {
+        printf("Falha ao carregar o mapa.\n");
+        return (1);
+    }
+
+    print_map_info(map_file);
+
+    free_map(map_file);
+
+    return (0);
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

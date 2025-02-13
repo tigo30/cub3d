@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 22:37:22 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/02/01 17:30:14 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/02/13 22:42:46 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,52 +49,53 @@ void	get_neighbors(t_coord neighbors[4], t_coord position)
 	neighbors[3].x = position.x + 1;
 }
 
-int	validate_edge(t_map *map_file, t_coord last_position, t_coord current_position)
+int	validate_edge(t_map *map_file, t_coord last_pos, t_coord pos)
 {
-	if (current_position.y < 0 || current_position.y >= map_file->height
-		|| current_position.x < 0 || current_position.x >= map_file->width
-		|| (last_position.y == current_position.y && last_position.x == current_position.x))
+	if (pos.y < 0 || pos.y >= map_file->height
+		|| pos.x < 0 || pos.x >= map_file->width
+		|| (last_pos.y == pos.y && last_pos.x == pos.x))
 		return (0);
-
-	int is_out_of_bounds = 
-		current_position.y - 1 < 0 ||
-		current_position.x - 1 < 0 ||
-		map_file->matriz[current_position.y + 1] == NULL ||
-		map_file->matriz[current_position.y][current_position.x + 1] == '\0';
-
-	int is_next_to_empty_space = 
-		map_file->matriz[current_position.y - 1][current_position.x] == ' ' ||
-		map_file->matriz[current_position.y + 1][current_position.x] == ' ' ||
-		map_file->matriz[current_position.y][current_position.x - 1] == ' ' ||
-		map_file->matriz[current_position.y][current_position.x + 1] == ' ';
-
-	int is_valid_cell = 
-		map_file->matriz[current_position.y][current_position.x] == '1' ||
-		map_file->matriz[current_position.y][current_position.x] == '#';
-
-	return ((is_out_of_bounds || is_next_to_empty_space) && is_valid_cell);
+	return (\
+		(\
+			pos.y - 1 == -1 \
+			|| pos.x - 1 == -1 \
+			|| map_file->matriz[pos.y + 1] == NULL \
+			|| map_file->matriz[pos.y][pos.x + 1] == '\0' \
+			|| map_file->matriz[pos.y - 1][pos.x] == ' ' \
+			|| map_file->matriz[pos.y + 1][pos.x] == ' ' \
+			|| map_file->matriz[pos.y][pos.x - 1] == ' ' \
+			|| map_file->matriz[pos.y][pos.x + 1] == ' ' \
+			|| map_file->matriz[pos.y - 1][pos.x - 1] == ' ' \
+			|| map_file->matriz[pos.y - 1][pos.x + 1] == ' ' \
+			|| map_file->matriz[pos.y + 1][pos.x - 1] == ' ' \
+			|| map_file->matriz[pos.y + 1][pos.x + 1] == ' ' \
+		) && (\
+			map_file->matriz[pos.y][pos.x] == '1' \
+			|| map_file->matriz[pos.y][pos.x] == '#' \
+		)
+	);
 }
 
-int	check_if_map_closed(t_map *map_file, const t_coord start, t_coord last_position, t_coord current_position)
+int	check_if_map_closed(t_map *map_file, const t_coord start, t_coord last_pos, t_coord pos)
 {
 	t_coord	neighbors[4];
 	int		i;
 
-	if (map_file->matriz[current_position.y][current_position.x] == '#')
-		return (current_position.y == start.y && current_position.x == start.x);
+	if (map_file->matriz[pos.y][pos.x] == '#')
+		return (pos.y == start.y && pos.x == start.x);
 
-	map_file->matriz[current_position.y][current_position.x] = '#';
+	map_file->matriz[pos.y][pos.x] = '#';
 
-	get_neighbors(neighbors, current_position);
+	get_neighbors(neighbors, pos);
 
 	for (i = 0; i < 4; i++)
 	{
-		if (validate_edge(map_file, last_position, neighbors[i])
-			&& check_if_map_closed(map_file, start, current_position, neighbors[i]))
+		if (validate_edge(map_file, last_pos, neighbors[i])
+			&& check_if_map_closed(map_file, start, pos, neighbors[i]))
 			return (1);
 	}
 
-	map_file->matriz[current_position.y][current_position.x] = '1';
+	map_file->matriz[pos.y][pos.x] = '1';
 	return (0);
 }
 

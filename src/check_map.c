@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 22:28:34 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/02/01 17:53:52 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/02/12 00:00:19 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	check_empty(t_map *map_file)
 		col++;
 		row = 0;
 	}
-	if (empty_rows || empty_columns)
+	if (empty_rows && empty_columns)
 	{
 		free_map(map_file);
 		error("The map has empty rows or columns");
