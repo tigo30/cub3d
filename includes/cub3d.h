@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:42 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/09 19:52:10 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/17 21:44:25 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 # define CUB3D_H
 
 # include "../libft/includes/libft.h"
-# include "../minilibx-linux/mlx.h"
 # include "fifo.h"
 # include "raycast.h"
-# include <stdbool.h>
 # include <fcntl.h>
 # include <X11/keysym.h>
 
@@ -51,7 +49,17 @@ typedef struct s_img
 	int		bpp;
 	int		size_line;
 	int		endian;
+	int		width;
+	int		height;
 }	t_img;
+
+typedef struct s_texture
+{
+	t_img	no;
+	t_img	so;
+	t_img	ea;
+	t_img	we;
+}	t_texture;
 
 typedef struct s_data
 {
@@ -59,6 +67,7 @@ typedef struct s_data
 	void		*window;
 	t_img		display;
 	t_map		*map;
+	t_texture	*wall;
 	t_ray		*ray;
 	t_player	*player;
 }	t_data;
@@ -78,15 +87,21 @@ void	calculate_map_size(t_map *map_file);
 void	validate_map_borders(t_map *map_file);
 void	validate_player(t_map *map);
 void	check_map(t_map *map_file);
-void	prog_cleanup(t_data *cub);
-t_data	*init_data(t_data *cub, t_map *map);
-bool	init_libx(t_data *cub);
-void	game_loop(t_data *cub);
-void	init_player(t_data *cub);
-int		check_intersection(float angle, float *inter, float *step, bool flag);
-bool	unit_circle(float angle, char c);
-bool	wall_hit(float x, float y, t_map *map);
+void	close_program(t_data *cub);
+bool	load_data(t_data *cub);
+void	init_data(t_data *cub, char *filename);
 void	raycasting(t_data *cub);
+void	screen_draw(t_data *cub, int x, int y, int color);
+int		reverse_bytes(int c);
+t_img	*get_texture(t_ray *ray, t_texture *tex);
+void	render(t_data *cub);
 bool	execute(t_data *cub);
+// DEBUG
+void	print_map_matrix(char **matrix, int height);
+void	print_map_info(t_map *map_file);
+void	print_texture(t_img *wall);
+void	print_ray_data(t_ray *ray);
+void	print_player_data(t_player *player);
+void	print_data(t_data *cub);
 
 #endif

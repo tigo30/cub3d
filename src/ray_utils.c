@@ -6,11 +6,20 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 18:38:22 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/09 19:50:07 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/16 13:30:12 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../includes/raycast.h"
+
+float	normalize(float angle)
+{
+	if (angle < 0)
+		angle += 2 * M_PI;
+	if (angle > 2 * M_PI)
+		angle -= 2 * M_PI;
+	return (angle);
+}
 
 int	check_intersection(float angle, float *inter, float *step, bool flag)
 {
@@ -48,21 +57,4 @@ bool	unit_circle(float angle, char c)
 			return (true);
 	}
 	return (false);
-}
-
-bool	wall_hit(float x, float y, t_map *map)
-{
-	int	map_x;
-	int	map_y;
-
-	if (x < 0 || y < 0)
-		return (false);
-	map_x = floor(x / TILE);
-	map_y = floor(y / TILE);
-	if (map_y >= map->height || map_x >= map->width)
-		return (false);
-	if (map->matriz[map_y] && map_x <= (int)ft_strlen(map->matriz[map_y]))
-		if (map->matriz[map_y][map_x] == '1')
-			return (false);
-	return (true);
 }

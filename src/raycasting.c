@@ -1,35 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.c                                              :+:      :+:    :+:   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 00:59:57 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/09 19:53:22 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/16 15:17:40 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	init_player(t_data *cub)
+static bool	wall_hit(float x, float y, t_map *map)
 {
-	if (!cub || !cub->map || !cub->player)
-		return ;
-	if (cub->map->player_direction == 'N')
-		cub->player->angle = 3 * M_PI / 2;
-	else if (cub->map->player_direction == 'S')
-		cub->player->angle = M_PI / 2;
-	else if (cub->map->player_direction == 'E')
-		cub->player->angle = 0;
-	else if (cub->map->player_direction == 'W')
-		cub->player->angle = M_PI;
-	cub->player->x = (cub->map->player_x * TILE) + TILE * 2;
-	cub->player->y = (cub->map->player_y * TILE) + TILE * 2;
-	cub->player->fov = FOV * M_PI / 180;
+	int	map_x;
+	int	map_y;
+
+	if (x < 0 || y < 0)
+		return (false);
+	map_x = floor(x / TILE);
+	map_y = floor(y / TILE);
+	if (map_y >= map->height || map_x >= map->width)
+		return (false);
+	if (map->matriz[map_y] && map_x <= (int)ft_strlen(map->matriz[map_y]))
+		if (map->matriz[map_y][map_x] == '1')
+			return (false);
+	return (true);
 }
 
-float	horizonal_intersection(t_data *cub)
+static float	vertical_intersection(t_data *cub)
+{
+	float	x;
+	float	y;
+	float	step_x;
+	float	step_y;
+	int		pixel;
+
+	step_x = TILE;
+	step_y = TILE * tan(cub->ray->angle);
+	x = floor(cub->player->x / TILE) * TILE;
+	y = cub->player->y + (x - cub->player->x) * tan(cub->ray->angle);
+	pixel = check_intersection(cub->ray->angle, &x, &step_x, false);
+	if ((unit_circle(cub->ray->angle, 'x') && step_y < 0)
+		|| (unit_circle(cub->ray->angle, 'x') && step_y > 0))
+		step_y *= -1;
+	while (wall_hit(x - pixel, y, cub->map))
+	{
+		x += step_x;
+		y += step_y;
+	}
+	cub->ray->vertical.x = x;
+	cub->ray->vertical.y = y;
+	return (sqrt(pow(x - cub->player->x, 2) + pow(y - cub->player->x, 2)));
+}
+
+static float	horizontal_intersection(t_data *cub)
 {
 	float	x;
 	float	y;
@@ -57,7 +83,9 @@ float	horizonal_intersection(t_data *cub)
 
 void	raycasting(t_data *cub)
 {
-	int	ray;
+	int		ray;
+	double	h_inter;
+	double	v_inter;
 
 	if (!cub || !cub->player || !cub->ray)
 		return ;
@@ -65,6 +93,17 @@ void	raycasting(t_data *cub)
 	ray = 0;
 	while (ray < WIDTH)
 	{
+		cub->ray->flag = false;
+		h_inter = horizontal_intersection(cub);
+		v_inter = vertical_intersection(cub);
+		if (v_inter <= h_inter)
+			cub->ray->distance = v_inter;
+		else
+		{
+			cub->ray->flag = false;
+			cub->ray->distance = h_inter;
+		}
+		render(cub);
 		++ray;
 		cub->ray->angle += cub->player->fov / WIDTH;
 	}

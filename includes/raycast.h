@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 19:25:20 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/09 18:40:22 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/16 19:42:21 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define RAYCAST_H
 
 # include <math.h>
+# include <stddef.h>
+# include <stdbool.h>
+# include "../minilibx-linux/mlx.h"
 
 # define HEIGHT 800
 # define WIDTH 600
@@ -34,6 +37,7 @@ typedef struct s_ray
 	t_coor	vertical;
 	double	distance;
 	double	angle;
+	bool	flag;
 }	t_ray;
 
 typedef struct s_player
@@ -43,5 +47,9 @@ typedef struct s_player
 	double	angle;
 	float	fov;
 }	t_player;
+
+float	normalize(float angle);
+int		check_intersection(float angle, float *inter, float *step, bool flag);
+bool	unit_circle(float angle, char c);
 
 #endif

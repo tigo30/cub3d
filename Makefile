@@ -6,7 +6,7 @@
 #    By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/31 01:29:41 by joandre-          #+#    #+#              #
-#    Updated: 2025/02/13 22:28:02 by tgrunho-         ###   ########.fr        #
+#    Updated: 2025/02/16 23:41:14 by joandre-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ $(MLX):
 	make -sC minilibx-linux
 
 run: $(NAME)
-	valgrind $(VFLAG) ./$(NAME) maps/debug.cub
+	valgrind $(VFLAG) ./$(NAME) maps/map0.cub
 
 clean:
 	rm -rf $(OBJ)
