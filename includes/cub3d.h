@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:42 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/17 21:44:25 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/18 02:00:28 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	close_program(t_data *cub);
 bool	load_data(t_data *cub);
 void	init_data(t_data *cub, char *filename);
 void	raycasting(t_data *cub);
-void	screen_draw(t_data *cub, int x, int y, int color);
+void	draw_pixel(t_img *image, int x, int y, int color);
 int		reverse_bytes(int c);
 t_img	*get_texture(t_ray *ray, t_texture *tex);
 void	render(t_data *cub);

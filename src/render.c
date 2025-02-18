@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:00:31 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/17 21:00:36 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/18 02:07:16 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,12 @@ static void	render_wall(t_data *cub, double top, double bot, double pixel)
 	double		x;
 	double		y;
 	double		factor;
-	uint32_t	*byte;
+	uint32_t	*color;
 	t_img		*wall;
 
 	wall = get_texture(cub->ray, cub->wall);
 	if (wall == NULL)
 		return ;
-	byte = (uint32_t *)wall->addr;
 	factor = wall->height / pixel;
 	x = get_x(wall, cub->ray);
 	y = (top - (HEIGHT / 2) + (wall->height / 2)) * factor;
@@ -41,8 +40,9 @@ static void	render_wall(t_data *cub, double top, double bot, double pixel)
 		y = 0;
 	while (top < bot)
 	{
-		screen_draw(cub, x, y,
-			reverse_bytes(byte[(int)y * wall->width + (int)x]));
+		color = (uint32_t *)
+			(wall->addr + (int)y * wall->size_line + (int)x * (wall->bpp / 8));
+		draw_pixel(&cub->display, x, y, reverse_bytes(*color));
 		y += factor;
 		++top;
 	}
@@ -59,7 +59,8 @@ void	render(t_data *cub)
 	double	bot_pixel;
 
 	cub->ray->distance *= cos(normalize(cub->ray->angle - cub->player->angle));
-	pixel = (TILE / cub->ray->distance) * ((WIDTH / 2) / tan(cub->player->fov / 2));
+	pixel = (TILE / cub->ray->distance)
+		* ((WIDTH / 2) / tan(cub->player->fov / 2));
 	bot_pixel = (HEIGHT / 2) + (pixel / 2);
 	top_pixel = (HEIGHT / 2) - (pixel / 2);
 	if (bot_pixel > HEIGHT)
@@ -68,4 +69,6 @@ void	render(t_data *cub)
 		top_pixel = 0;
 	render_wall(cub, top_pixel, bot_pixel, pixel);
 	render_floor_ceiling();
+	mlx_put_image_to_window(cub->init, cub->window, cub->display.img, 0, 0);
+	print_data(cub);
 }

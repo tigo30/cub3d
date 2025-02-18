@@ -6,20 +6,24 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 12:29:16 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/17 20:00:14 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/18 02:05:52 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	screen_draw(t_data *cub, int x, int y, int color)
+void	draw_pixel(t_img *image, int x, int y, int color)
 {
-	printf("screen_draw()\n");
+	char	*draw;
+
 	if (x < 0 || y < 0)
 		return ;
 	if (x > WIDTH || y > HEIGHT)
 		return ;
-	mlx_pixel_put(cub->init, cub->window, x, y, color);
+	if (!image || !image->addr)
+		return ;
+	draw = image->addr + (y * image->size_line + x * (image->bpp / 8));
+	*(uint32_t *)draw = color;
 }
 
 int	reverse_bytes(int c)

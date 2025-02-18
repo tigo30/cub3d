@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 00:59:57 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/16 15:17:40 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/18 01:26:10 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	raycasting(t_data *cub)
 			cub->ray->distance = v_inter;
 		else
 		{
-			cub->ray->flag = false;
+			cub->ray->flag = true;
 			cub->ray->distance = h_inter;
 		}
 		render(cub);
