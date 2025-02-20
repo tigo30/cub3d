@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:00:31 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/18 02:07:16 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/20 02:24:46 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,4 @@ void	render(t_data *cub)
 	render_wall(cub, top_pixel, bot_pixel, pixel);
 	render_floor_ceiling();
 	mlx_put_image_to_window(cub->init, cub->window, cub->display.img, 0, 0);
-	print_data(cub);
 }

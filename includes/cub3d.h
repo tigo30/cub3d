@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:42 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/18 02:00:28 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/20 02:47:20 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	check_map(t_map *map_file);
 void	close_program(t_data *cub);
 bool	load_data(t_data *cub);
 void	init_data(t_data *cub, char *filename);
+void	hooks(t_data *cub);
 void	raycasting(t_data *cub);
 void	draw_pixel(t_img *image, int x, int y, int color);
 int		reverse_bytes(int c);

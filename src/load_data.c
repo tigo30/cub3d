@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:23:39 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/17 21:47:23 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/20 02:37:48 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static void	load_player(t_player *player, t_map *map)
 		player->angle = 0;
 	else if (map->player_direction == 'W')
 		player->angle = M_PI;
-	player->x = (map->player_x * TILE) + TILE * 2;
-	player->y = (map->player_y * TILE) + TILE * 2;
-	player->fov = FOV * M_PI / 180;
+	player->x = (map->player_x * TILE) + (TILE / 2);
+	player->y = (map->player_y * TILE) + (TILE / 2);
+	player->fov = (FOV * M_PI) / 180;
 }
 
 static bool	load_file_image(void *init, t_img *png, char *filename)
@@ -80,5 +80,6 @@ bool	load_data(t_data *cub)
 	if (load_textures(cub->init, cub->wall, cub->map) == false)
 		return (false);
 	load_player(cub->player, cub->map);
+	cub->ray->angle = cub->player->angle;
 	return (true);
 }

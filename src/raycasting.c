@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 00:59:57 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/18 01:26:10 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/20 02:47:55 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ static bool	wall_hit(float x, float y, t_map *map)
 	int	map_y;
 
 	if (x < 0 || y < 0)
-		return (false);
+		return (true);
 	map_x = floor(x / TILE);
 	map_y = floor(y / TILE);
 	if (map_y >= map->height || map_x >= map->width)
-		return (false);
+		return (true);
 	if (map->matriz[map_y] && map_x <= (int)ft_strlen(map->matriz[map_y]))
 		if (map->matriz[map_y][map_x] == '1')
-			return (false);
-	return (true);
+			return (true);
+	return (false);
 }
 
 static float	vertical_intersection(t_data *cub)
@@ -45,7 +45,7 @@ static float	vertical_intersection(t_data *cub)
 	if ((unit_circle(cub->ray->angle, 'x') && step_y < 0)
 		|| (unit_circle(cub->ray->angle, 'x') && step_y > 0))
 		step_y *= -1;
-	while (wall_hit(x - pixel, y, cub->map))
+	while (!wall_hit(x - pixel, y, cub->map))
 	{
 		x += step_x;
 		y += step_y;
@@ -71,7 +71,7 @@ static float	horizontal_intersection(t_data *cub)
 	if ((unit_circle(cub->ray->angle, 'y') && step_x > 0)
 		|| (!unit_circle(cub->ray->angle, 'y') && step_x < 0))
 		step_x *= -1;
-	while (wall_hit(x, y - pixel, cub->map))
+	while (!wall_hit(x, y - pixel, cub->map))
 	{
 		x += step_x;
 		y += step_y;
@@ -105,6 +105,6 @@ void	raycasting(t_data *cub)
 		}
 		render(cub);
 		++ray;
-		cub->ray->angle += cub->player->fov / WIDTH;
+		cub->ray->angle += (cub->player->fov / WIDTH);
 	}
 }
