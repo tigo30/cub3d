@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:42 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/20 02:47:20 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/27 20:36:19 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include "raycast.h"
 # include <fcntl.h>
 # include <X11/keysym.h>
+
+# define HEIGHT 600
+# define WIDTH 800
 
 typedef struct s_map
 {
@@ -61,15 +64,24 @@ typedef struct s_texture
 	t_img	we;
 }	t_texture;
 
+enum walls
+{
+	NORTH = 0,
+	SOUTH = 1,
+	EAST = 2,
+	WEST = 3
+};
+
 typedef struct s_data
 {
 	void		*init;
 	void		*window;
-	t_img		display;
+	int			**frame;
+	int			**wall;
 	t_map		*map;
-	t_texture	*wall;
 	t_ray		*ray;
 	t_player	*player;
+	t_player	control;
 }	t_data;
 
 void	error(char *error);
@@ -88,21 +100,25 @@ void	validate_map_borders(t_map *map_file);
 void	validate_player(t_map *map);
 void	check_map(t_map *map_file);
 void	close_program(t_data *cub);
-bool	load_data(t_data *cub);
-void	init_data(t_data *cub, char *filename);
+bool	load_data(t_data *cub, char *filename);
+int		**init_frame(void);
+void	init_data(t_data *cub);
+int		player_movement(int keysym, t_data *cub);
 void	hooks(t_data *cub);
 void	raycasting(t_data *cub);
-void	draw_pixel(t_img *image, int x, int y, int color);
-int		reverse_bytes(int c);
-t_img	*get_texture(t_ray *ray, t_texture *tex);
-void	render(t_data *cub);
-bool	execute(t_data *cub);
+int		get_texture(t_ray *ray);
+void	render_display(t_data *cub);
+void	render_frame(t_data *cub, t_ray *ray, int x);
+int		render(t_data *cub);
+void	execute(t_data *cub);
 // DEBUG
 void	print_map_matrix(char **matrix, int height);
 void	print_map_info(t_map *map_file);
 void	print_texture(t_img *wall);
+void	print_frame_data(int **frame);
 void	print_ray_data(t_ray *ray);
 void	print_player_data(t_player *player);
 void	print_data(t_data *cub);
+void	print_wall_pixel_data(int **wall);
 
 #endif

@@ -6,105 +6,109 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 00:59:57 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/20 02:47:55 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/27 22:10:51 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static bool	wall_hit(float x, float y, t_map *map)
+static void	calculate_height(t_ray *ray, t_player *player)
 {
-	int	map_x;
-	int	map_y;
-
-	if (x < 0 || y < 0)
-		return (true);
-	map_x = floor(x / TILE);
-	map_y = floor(y / TILE);
-	if (map_y >= map->height || map_x >= map->width)
-		return (true);
-	if (map->matriz[map_y] && map_x <= (int)ft_strlen(map->matriz[map_y]))
-		if (map->matriz[map_y][map_x] == '1')
-			return (true);
-	return (false);
+	if (ray->flag)
+		ray->distance = ray->side.y - ray->delta.y;
+	else
+		ray->distance = ray->side.x - ray->delta.x;
+	ray->line = (int)(HEIGHT / ray->distance);
+	ray->start = -(ray->line) / 2 + HEIGHT / 2;
+	if (ray->start < 0)
+		ray->start = 0;
+	ray->end = ray->line / 2 + HEIGHT / 2;
+	if (ray->end >= HEIGHT)
+		ray->end = HEIGHT - 1;
+	if (ray->flag)
+		ray->wall = player->position.x + ray->distance * ray->direction.x;
+	else
+		ray->wall = player->position.y + ray->distance * ray->direction.y;
+	ray->wall -= floor(ray->wall);
 }
 
-static float	vertical_intersection(t_data *cub)
+static void	dda_algo(t_ray *ray, t_map *map)
 {
-	float	x;
-	float	y;
-	float	step_x;
-	float	step_y;
-	int		pixel;
-
-	step_x = TILE;
-	step_y = TILE * tan(cub->ray->angle);
-	x = floor(cub->player->x / TILE) * TILE;
-	y = cub->player->y + (x - cub->player->x) * tan(cub->ray->angle);
-	pixel = check_intersection(cub->ray->angle, &x, &step_x, false);
-	if ((unit_circle(cub->ray->angle, 'x') && step_y < 0)
-		|| (unit_circle(cub->ray->angle, 'x') && step_y > 0))
-		step_y *= -1;
-	while (!wall_hit(x - pixel, y, cub->map))
+	while (1)
 	{
-		x += step_x;
-		y += step_y;
+		if (ray->side.x < ray->side.y)
+		{
+			ray->side.x += ray->delta.x;
+			ray->position.x += ray->step.x;
+			ray->flag = false;
+		}
+		else
+		{
+			ray->side.y += ray->delta.y;
+			ray->position.y += ray->step.y;
+			ray->flag = true;
+		}
+		if (ray->position.y < 0.25 || ray->position.x < 0.25
+			|| ray->position.y > map->height - 0.25
+			|| ray->position.x > map->width - 1.25
+			|| map->matriz[ray->position.y][ray->position.x] > '0')
+			break ;
 	}
-	cub->ray->vertical.x = x;
-	cub->ray->vertical.y = y;
-	return (sqrt(pow(x - cub->player->x, 2) + pow(y - cub->player->x, 2)));
 }
 
-static float	horizontal_intersection(t_data *cub)
+static void	calculate_step(t_ray *ray, t_player *player)
 {
-	float	x;
-	float	y;
-	float	step_x;
-	float	step_y;
-	int		pixel;
-
-	y = floor(cub->player->y / TILE) * TILE;
-	x = cub->player->x + (y - cub->player->y) / tan(cub->ray->angle);
-	step_y = TILE;
-	step_x = TILE / tan(cub->ray->angle);
-	pixel = check_intersection(cub->ray->angle, &y, &step_y, true);
-	if ((unit_circle(cub->ray->angle, 'y') && step_x > 0)
-		|| (!unit_circle(cub->ray->angle, 'y') && step_x < 0))
-		step_x *= -1;
-	while (!wall_hit(x, y - pixel, cub->map))
+	if (ray->direction.x < 0)
 	{
-		x += step_x;
-		y += step_y;
+		ray->step.x = -1;
+		ray->side.x = (player->position.x - ray->position.x) * ray->delta.x;
 	}
-	cub->ray->horizontal.x = x;
-	cub->ray->horizontal.y = y;
-	return (sqrt(pow(x - cub->player->x, 2) + pow(y - cub->player->y, 2)));
+	else
+	{
+		ray->step.x = 1;
+		ray->side.x = (ray->position.x + 1.0 - player->position.x)
+			* ray->delta.x;
+	}
+	if (ray->direction.y < 0)
+	{
+		ray->step.y = -1;
+		ray->side.y = (player->position.y - ray->position.y) * ray->delta.y;
+	}
+	else
+	{
+		ray->step.y = 1;
+		ray->side.y = (ray->position.y + 1.0 - player->position.y)
+			* ray->delta.y;
+	}
+}
+
+static void	cast_info(int x, t_ray *ray, t_player *player)
+{
+	ft_bzero(ray, sizeof(ray));
+	ray->camera = 2 * x / (double)WIDTH - 1;
+	ray->direction.x = player->direction.x + player->plane.x * ray->camera;
+	ray->direction.y = player->direction.y + player->plane.y * ray->camera;
+	ray->position.x = (int)player->position.x;
+	ray->position.y = (int)player->position.y;
+	ray->delta.x = fabs(1 / ray->direction.x);
+	ray->delta.y = fabs(1 / ray->direction.y);
 }
 
 void	raycasting(t_data *cub)
 {
-	int		ray;
-	double	h_inter;
-	double	v_inter;
+	t_ray	ray;
+	int		x;
 
-	if (!cub || !cub->player || !cub->ray)
+	if (cub == NULL)
 		return ;
-	cub->ray->angle = cub->player->angle - (cub->player->fov / 2);
-	ray = 0;
-	while (ray < WIDTH)
+	ray = *cub->ray;
+	x = -1;
+	while (++x < WIDTH)
 	{
-		cub->ray->flag = false;
-		h_inter = horizontal_intersection(cub);
-		v_inter = vertical_intersection(cub);
-		if (v_inter <= h_inter)
-			cub->ray->distance = v_inter;
-		else
-		{
-			cub->ray->flag = true;
-			cub->ray->distance = h_inter;
-		}
-		render(cub);
-		++ray;
-		cub->ray->angle += (cub->player->fov / WIDTH);
+		cast_info(x, &ray, cub->player);
+		calculate_step(&ray, cub->player);
+		dda_algo(&ray, cub->map);
+		calculate_height(&ray, cub->player);
+		render_frame(cub, &ray, x);
 	}
 }

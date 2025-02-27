@@ -6,30 +6,13 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:23:39 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/20 02:37:48 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/27 21:02:16 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static void	load_player(t_player *player, t_map *map)
-{
-	if (player == NULL || map == NULL)
-		return ;
-	if (map->player_direction == 'N')
-		player->angle = 3 * M_PI / 2;
-	else if (map->player_direction == 'S')
-		player->angle = M_PI / 2;
-	else if (map->player_direction == 'E')
-		player->angle = 0;
-	else if (map->player_direction == 'W')
-		player->angle = M_PI;
-	player->x = (map->player_x * TILE) + (TILE / 2);
-	player->y = (map->player_y * TILE) + (TILE / 2);
-	player->fov = (FOV * M_PI) / 180;
-}
-
-static bool	load_file_image(void *init, t_img *png, char *filename)
+static bool	load_image(void *init, t_img *png, char *filename)
 {
 	png->img = mlx_xpm_file_to_image(init, filename, &png->width, &png->height);
 	if (png->img == NULL)
@@ -37,49 +20,118 @@ static bool	load_file_image(void *init, t_img *png, char *filename)
 	png->addr = mlx_get_data_addr(png->img,
 			&png->bpp, &png->size_line, &png->endian);
 	if (png->addr == NULL)
-		return (false);
+		return (mlx_destroy_image(init, png->img), false);
 	return (true);
 }
 
-static bool	load_textures(void *init, t_texture *wall, t_map *map)
+static int	*xpm_to_img(void *init, char *path)
 {
-	return (load_file_image(init, &wall->no, map->texture_no)
-		&& load_file_image(init, &wall->so, map->texture_so)
-		&& load_file_image(init, &wall->ea, map->texture_ea)
-		&& load_file_image(init, &wall->we, map->texture_we));
+	t_img	tmp;
+	int		*wall;
+	int		x;
+	int		y;
+
+	ft_bzero(&tmp, sizeof(t_img));
+	tmp.img = NULL;
+	tmp.addr = NULL;
+	if (!load_image(init, &tmp, path))
+		return (NULL);
+	wall = ft_calloc(1, sizeof(int) * tmp.height * tmp.width + sizeof(int));
+	if (!wall)
+		return (mlx_destroy_image(init, tmp.img), NULL);
+	y = -1;
+	while (++y < tmp.height)
+	{
+		x = -1;
+		while (++x < tmp.width)
+			wall[y * tmp.width + x] = ((int *)tmp.addr)[y * (tmp.size_line / 4) + x];
+	}
+	mlx_destroy_image(init, tmp.img);
+	return (wall);
 }
 
-static bool	init_minilibx(t_data *cub)
+int	**init_wall(void *init, t_map *map)
 {
-	if (cub == NULL)
-		return (false);
+	int	**wall;
+
+	wall = ft_calloc(sizeof(int *), 4);
+	if (!wall)
+		return (NULL);
+	wall[NORTH] = xpm_to_img(init, map->texture_no);
+	if (!wall[NORTH])
+		return (free(wall), NULL);
+	wall[SOUTH] = xpm_to_img(init, map->texture_so);
+	if (!wall[SOUTH])
+		return (free(wall[NORTH]), free(wall), NULL);
+	wall[EAST] = xpm_to_img(init, map->texture_ea);
+	if (!wall[EAST])
+		return (free(wall[NORTH]), free(wall[SOUTH]), free(wall), NULL);
+	wall[WEST] = xpm_to_img(init, map->texture_we);
+	if (!wall[WEST])
+		return (free(wall[NORTH]), free(wall[SOUTH]),
+			free(wall[EAST]), free(wall), NULL);
+	return (wall);
+}
+
+static bool	start_minilibx(t_data *cub)
+{
 	cub->init = mlx_init();
-	if (cub->init == NULL)
+	if (!cub->init)
 		return (false);
-	cub->window = mlx_new_window(cub->init, HEIGHT, WIDTH, "cub3d");
-	if (cub->window == NULL)
-		return (false);
-	cub->display.img = mlx_new_image(cub->init,
-		cub->display.height, cub->display.width);
-	if (cub->display.img == NULL)
-		return (false);
-	cub->display.addr = mlx_get_data_addr(cub->display.img,
-			&cub->display.bpp, &cub->display.size_line,
-			&cub->display.endian);
-	if (cub->display.addr == NULL)
+	cub->window = mlx_new_window(cub->init, WIDTH, HEIGHT, "cub3d");
+	if (!cub->window)
 		return (false);
 	return (true);
 }
 
-bool	load_data(t_data *cub)
+void	load_player_data(t_player *player, t_map *map)
 {
-	if (!cub || !cub->map || !cub->wall || !cub->ray || !cub->player)
+	if (map->player_direction == 'N')
+	{
+		player->direction.y = -1;
+		player->plane.x = 0.66;
+	}
+	else if (map->player_direction == 'S')
+	{
+		player->direction.y = 1;
+		player->plane.x = -0.66;
+	}
+	else if (map->player_direction == 'E')
+	{
+		player->direction.x = 1;
+		player->plane.y = 0.66;
+	}
+	else if (map->player_direction == 'W')
+	{
+		player->direction.x = -1;
+		player->plane.y = -0.66;
+	}
+	player->position.x = map->player_x + 0.5;
+	player->position.y = map->player_y + 0.5;
+}
+
+bool	load_data(t_data *cub, char *filename)
+{
+	if (!cub || !filename || !(*filename))
 		return (false);
-	if (init_minilibx(cub) == false)
+	cub->map = get_map(filename);
+	if (!cub->map)
 		return (false);
-	if (load_textures(cub->init, cub->wall, cub->map) == false)
+	cub->player = ft_calloc(sizeof(t_player), 1);
+	if (!cub->player)
 		return (false);
-	load_player(cub->player, cub->map);
-	cub->ray->angle = cub->player->angle;
+	load_player_data(cub->player, cub->map);
+	cub->control = *cub->player;
+	cub->ray = ft_calloc(sizeof(t_ray), 1);
+	if (!cub->ray)
+		return (false);
+	cub->frame = init_frame();
+	if (!cub->frame)
+		return (false);
+	if (!start_minilibx(cub))
+		return (false);
+	cub->wall = init_wall(cub->init, cub->map);
+	if (!cub->wall)
+		return (false);
 	return (true);
 }

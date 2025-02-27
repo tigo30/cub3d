@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 19:25:20 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/16 19:42:21 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/27 20:42:55 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@
 # include <stdbool.h>
 # include "../minilibx-linux/mlx.h"
 
-# define HEIGHT 800
-# define WIDTH 600
 # define TILE 64
-# define FOV 90
-# define PLAYER_SPEED 4
+# define PLAYER_SPEED 0.142
 # define ROTATION_SPEED 0.042
+
+typedef struct s_coori
+{
+	int	x;
+	int	y;
+}	t_coori;
 
 typedef struct s_coor
 {
@@ -33,23 +36,25 @@ typedef struct s_coor
 
 typedef struct s_ray
 {
-	t_coor	horizontal;
-	t_coor	vertical;
+	t_coori	position;
+	t_coori	step;
+	t_coor	direction;
+	t_coor	side;
+	t_coor	delta;
 	double	distance;
-	double	angle;
+	double	wall;
+	double	camera;
+	int		line;
+	int		start;
+	int		end;
 	bool	flag;
 }	t_ray;
 
 typedef struct s_player
 {
-	int		x;
-	int		y;
-	double	angle;
-	float	fov;
+	t_coor		position;
+	t_coor		direction;
+	t_coor		plane;
 }	t_player;
-
-float	normalize(float angle);
-int		check_intersection(float angle, float *inter, float *step, bool flag);
-bool	unit_circle(float angle, char c);
 
 #endif
