@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:00:31 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/27 22:08:45 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/28 22:40:14 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ static void	frame_pixel(t_data *cub, t_img *img, int x, int y)
 		set_pixel(img, x, y, cub->map->ceil_color);
 	else if (y < HEIGHT - 1)
 		set_pixel(img, x, y, cub->map->floor_color);
+}
+
+void	clean_frame(int **frame)
+{
+	int	y;
+
+	y = -1;
+	while (++y < HEIGHT)
+		free(frame[y]);
+	free(frame);
 }
 
 void	render_display(t_data *cub)
@@ -52,6 +62,8 @@ void	render_display(t_data *cub)
 	}
 	mlx_put_image_to_window(cub->init, cub->window, img.img, 0, 0);
 	mlx_destroy_image(cub->init, img.img);
+	clean_frame(cub->frame);
+	cub->frame = NULL;
 }
 
 void	render_frame(t_data *cub, t_ray *ray, int x)

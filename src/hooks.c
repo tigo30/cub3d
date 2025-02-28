@@ -6,7 +6,7 @@
 /*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:34:55 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/27 21:53:43 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/02/28 22:41:56 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	render(t_data *cub)
 {
 	if (ft_memcmp(cub->player, &cub->control, sizeof(t_player)))
 	{
+		cub->frame = init_frame();
 		*cub->player = cub->control;
 		raycasting(cub);
 		render_display(cub);
