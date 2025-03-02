@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 15:58:18 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/01/19 22:02:00 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/02 21:43:39 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ size_t	ft_split_len(char **split)
 		len++;
 	return (len);
 }
+
 static void	ft_free(char **strs, int j)
 {
 	while (j-- > 0)

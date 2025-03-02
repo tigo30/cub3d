@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:01:05 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/28 23:13:20 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:28:36 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static t_player	rotation(t_data *cub, double speed)
 	ft_bzero(&player, sizeof(t_player));
 	player = *cub->player;
 	tmp_x = player.direction.x;
-	player.direction.x = player.direction.x * cos(speed) - player.direction.y * sin(speed);
+	player.direction.x = player.direction.x * cos(speed)
+		- player.direction.y * sin(speed);
 	player.direction.y = tmp_x * sin(speed) + player.direction.y * cos(speed);
 	tmp_x = player.plane.x;
 	player.plane.x = player.plane.x * cos(speed) - player.plane.y * sin(speed);
@@ -71,7 +72,6 @@ bool	move_player(int keysym, t_data *cub)
 
 int	rotate_player(int keysym, t_data *cub)
 {
-	
 	if (keysym == XK_Left)
 		cub->control = rotation(cub, ROTATION_SPEED * -1);
 	else

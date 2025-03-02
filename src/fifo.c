@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 19:24:22 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/01/24 23:21:47 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:17:28 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,15 @@ t_fifo	*fifo_init(void)
 	return (fifo);
 }
 
-
 void	fifo_add(t_fifo *fifo, char *value)
 {
 	t_node	*new_node;
 
 	if (!fifo || !value)
-		return;
+		return ;
 	new_node = (t_node *)malloc(sizeof(t_node));
 	if (!new_node)
-		return;
+		return ;
 	new_node->value = value;
 	new_node->next = NULL;
 	if (fifo->len > 0)
@@ -52,13 +51,12 @@ void	fifo_add(t_fifo *fifo, char *value)
 	fifo->len++;
 }
 
-
 void	fifo_remove_last(t_fifo *fifo)
 {
 	t_node	*tmp;
 
 	if (!fifo || fifo->len == 0)
-		return;
+		return ;
 	tmp = fifo->last;
 	if (fifo->len == 1)
 	{
@@ -79,19 +77,18 @@ void	fifo_remove_last(t_fifo *fifo)
 void	fifo_free(t_fifo *fifo)
 {
 	if (!fifo)
-		return;
+		return ;
 	while (fifo->len > 0)
 		fifo_remove_last(fifo);
 	free(fifo);
 }
-
 
 void	fifo_remove_first(t_fifo *fifo)
 {
 	t_node	*tmp;
 
 	if (!fifo || fifo->len == 0)
-		return;
+		return ;
 	tmp = fifo->first;
 	if (fifo->len == 1)
 	{

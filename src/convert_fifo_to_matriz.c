@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 09:39:57 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/02/01 12:00:45 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:02:05 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	normalize_line_lengths(t_fifo *file_content)
 	return (0);
 }
 
-
 char	**convert_fifo_to_matriz(t_fifo *file_content)
 {
 	char	**matriz;
@@ -98,66 +97,3 @@ char	**convert_fifo_to_matriz(t_fifo *file_content)
 	}
 	return (matriz);
 }
-
-
-
-
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
-// #include "fifo.h" // Certifique-se de incluir o header com t_fifo e funções relacionadas.
-
-// char **convert_fifo_to_matriz(t_fifo *file_content); // Prototipo da função que você deseja testar.
-
-// int main(void)
-// {
-//     t_fifo *file_content;
-//     char **matriz;
-//     t_node *current;
-//     size_t i;
-
-//     // Inicializa a fila (t_fifo)
-//     file_content = fifo_init();
-//     if (!file_content)
-//     {
-//         fprintf(stderr, "Failed to initialize FIFO.\n");
-//         return (1);
-//     }
-
-//     // Adiciona algumas linhas de exemplo à fila
-//     fifo_add(file_content, strdup("First line"));
-//     fifo_add(file_content, strdup("Second line is longer"));
-//     fifo_add(file_content, strdup("Short"));
-
-//     // Exibe o conteúdo original da fila
-//     printf("Original FIFO content:\n");
-//     current = file_content->first;
-//     while (current)
-//     {
-//         printf("- %s\n", current->value);
-//         current = current->next;
-//     }
-
-//     // Converte a fila para uma matriz
-//     matriz = convert_fifo_to_matriz(file_content);
-//     if (!matriz)
-//     {
-//         fprintf(stderr, "Failed to convert FIFO to matrix.\n");
-//         fifo_free(file_content);
-//         return (1);
-//     }
-
-//     // Exibe a matriz resultante
-//     printf("\nConverted Matrix:\n");
-//     for (i = 0; matriz[i]; i++)
-//     {
-//         printf("[%zu] \"%s\"\n", i, matriz[i]);
-//         free(matriz[i]); // Libera cada linha da matriz
-//     }
-//     free(matriz); // Libera a matriz em si
-
-//     // Limpa a fila (que deve estar vazia neste ponto)
-//     fifo_free(file_content);
-
-//     return (0);
-// }

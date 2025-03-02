@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:23:42 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/02/01 15:41:54 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:21:29 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_map_file(t_map *map_file)
 	map_file->texture_we = NULL;
 	map_file->ceil_color = -1;
 	map_file->floor_color = -1;
-	map_file->player_direction = '?'; // indica que o valor ainda não foi definido ou está indeterminado, usado para defenir para onde o jogador esta a olhar no momento
+	map_file->player_direction = '?';
 	map_file->player_x = -1;
 	map_file->player_y = -1;
 }

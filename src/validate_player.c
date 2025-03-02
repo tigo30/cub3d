@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 01:37:22 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/02/01 15:35:01 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:49:38 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	find_player_position(t_map *map)
 		while (grid[y][x] && !char_in_set(grid[y][x], "NSEW"))
 			x++;
 		if (char_in_set(grid[y][x], "NSEW"))
-			break;
+			break ;
 		y++;
 	}
 	if (grid[y] == NULL || grid[y][x] == '\0')

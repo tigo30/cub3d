@@ -6,12 +6,11 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 22:37:22 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/02/01 13:44:06 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/02 18:58:27 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
 
 void	calculate_map_size(t_map *map_file)
 {
@@ -30,9 +29,8 @@ void	calculate_map_size(t_map *map_file)
 	map_file->width = width;
 	map_file->height = height;
 	if (width == 0 && height == 0)
-    {
-        free_map(map_file);
+	{
+		free_map(map_file);
 		error("Map doesn't have width and height");
-    }
-  
+	}
 }

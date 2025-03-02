@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_printf.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgrunho- <tgrunho-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 13:44:57 by tgrunho-          #+#    #+#             */
-/*   Updated: 2024/04/08 23:23:50 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/02 21:40:44 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,3 @@ int	ft_u_add(uintptr_t n, char *base)
 		write(1, &base[n], 1);
 	return (add_count(n, ft_strlen(base)));
 }
-

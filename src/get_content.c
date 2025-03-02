@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:53:01 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/01/24 23:21:39 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:20:35 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,35 +46,3 @@ t_fifo	*get_file_content(char *filename)
 	close(fd);
 	return (file_content);
 }
-
-
-//EXEMPLO 
-
-// Entrada (arquivo map.cub):
-// Conteúdo do arquivo:
-
-// NO ./textures/wall_north.xpm
-// SO ./textures/wall_south.xpm
-// WE ./textures/wall_west.xpm
-// EA ./textures/wall_east.xpm
-// 111111
-// 100001
-// 1001N1
-// 111111
-
-
-
-// Saída (t_fifo):
-// A fila (t_fifo) armazenará cada linha como um item separado:
-
-// t_fifo:
-// [
-//     "NO ./textures/wall_north.xpm", t_node
-//     "SO ./textures/wall_south.xpm",
-//     "WE ./textures/wall_west.xpm",
-//     "EA ./textures/wall_east.xpm",
-//     "111111",
-//     "100001",
-//     "1001N1",
-//     "111111"
-// ]

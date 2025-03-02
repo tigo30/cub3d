@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   load_data_util.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 16:16:55 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/03/02 21:43:13 by tgrunho-         ###   ########.fr       */
+/*   Created: 2025/02/17 02:23:39 by joandre-          #+#    #+#             */
+/*   Updated: 2025/03/02 19:25:54 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/cub3d.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+bool	load_image(void *init, t_img *png, char *filename)
 {
-	while (n--)
-	{
-		if (*(unsigned char *)s == (unsigned char)c)
-			return ((void *)s);
-		++s;
-	}
-	return (NULL);
+	png->img = mlx_xpm_file_to_image(init, filename, &png->width, &png->height);
+	if (png->img == NULL)
+		return (false);
+	png->addr = mlx_get_data_addr(png->img,
+			&png->bpp, &png->size_line, &png->endian);
+	if (png->addr == NULL)
+		return (mlx_destroy_image(init, png->img), false);
+	return (true);
 }

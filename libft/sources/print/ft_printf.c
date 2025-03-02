@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgrunho- <tgrunho-@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 18:44:51 by tgrunho-          #+#    #+#             */
-/*   Updated: 2024/04/08 23:24:28 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/02 21:42:23 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,3 @@ static int	check_identifier(const char c, va_list args)
 		count = ft_putchar_str(args, c);
 	return (count);
 }
-

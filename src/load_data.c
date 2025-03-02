@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   load_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 02:23:39 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/27 21:02:16 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:25:02 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-static bool	load_image(void *init, t_img *png, char *filename)
-{
-	png->img = mlx_xpm_file_to_image(init, filename, &png->width, &png->height);
-	if (png->img == NULL)
-		return (false);
-	png->addr = mlx_get_data_addr(png->img,
-			&png->bpp, &png->size_line, &png->endian);
-	if (png->addr == NULL)
-		return (mlx_destroy_image(init, png->img), false);
-	return (true);
-}
 
 static int	*xpm_to_img(void *init, char *path)
 {
@@ -44,7 +32,8 @@ static int	*xpm_to_img(void *init, char *path)
 	{
 		x = -1;
 		while (++x < tmp.width)
-			wall[y * tmp.width + x] = ((int *)tmp.addr)[y * (tmp.size_line / 4) + x];
+			wall[y * tmp.width + x]
+				= ((int *)tmp.addr)[y * (tmp.size_line / 4) + x];
 	}
 	mlx_destroy_image(init, tmp.img);
 	return (wall);

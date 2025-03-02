@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:00:31 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/28 22:40:14 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:44:06 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	render_display(t_data *cub)
 	img.img = mlx_new_image(cub->init, WIDTH, HEIGHT);
 	if (!img.img)
 		close_program(cub);
-	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.size_line, &img.endian);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp,
+			&img.size_line, &img.endian);
 	if (!img.addr)
 		close_program(cub);
 	y = -1;

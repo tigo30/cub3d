@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joandre- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:04:42 by joandre-          #+#    #+#             */
-/*   Updated: 2025/02/27 20:36:19 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/03/02 21:45:53 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 
 # define HEIGHT 600
 # define WIDTH 800
+
+typedef struct s_rgb
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_rgb;
 
 typedef struct s_map
 {
@@ -64,7 +71,7 @@ typedef struct s_texture
 	t_img	we;
 }	t_texture;
 
-enum walls
+enum e_walls
 {
 	NORTH = 0,
 	SOUTH = 1,
@@ -86,6 +93,9 @@ typedef struct s_data
 
 void	error(char *error);
 void	check_file(char *filename);
+void	check_empty(t_map *map_file);
+int		has_content(char *content);
+void	check_characters(t_map *map_file);
 int		open_file(char *filename);
 void	check_textures(t_map *map_file);
 t_map	*get_map(char *filename);
@@ -97,10 +107,12 @@ t_fifo	*get_file_content(char *filename);
 char	**convert_fifo_to_matriz(t_fifo *file_content);
 void	calculate_map_size(t_map *map_file);
 void	validate_map_borders(t_map *map_file);
+void	check_characters(t_map *map_file);
 void	validate_player(t_map *map);
 void	check_map(t_map *map_file);
 void	close_program(t_data *cub);
 bool	load_data(t_data *cub, char *filename);
+bool	load_image(void *init, t_img *png, char *filename);
 int		**init_frame(void);
 void	init_data(t_data *cub);
 int		player_movement(int keysym, t_data *cub);
