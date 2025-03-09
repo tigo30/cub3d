@@ -6,11 +6,27 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 22:28:34 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/03/02 21:38:49 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:27:17 by tgrunho-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int	has_non_space(char *nbr)
+{
+	int	i;
+
+	if (!nbr)
+		return (0);
+	i = 0;
+	while (nbr[i])
+	{
+		if (nbr[i] != ' ')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	has_content(char *content)
 {
@@ -43,9 +59,16 @@ void	validate_format_map(t_map *map_file)
 	}
 }
 
+void	remove_trailing_empty_lines(t_fifo *file_content)
+{
+	while (file_content->len > 0 && !has_non_space(file_content->last->value))
+		fifo_remove_last(file_content);
+}
+
 void	check_map(t_map *map_file)
 {
 	check_characters(map_file);
+	remove_trailing_empty_lines(map_file->file_content);
 	map_file->matriz = convert_fifo_to_matriz(map_file->file_content);
 	if (!map_file->matriz)
 	{
