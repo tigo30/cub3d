@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:01:05 by joandre-          #+#    #+#             */
-/*   Updated: 2025/03/02 19:28:36 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/09 02:42:31 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static bool	is_valid_move(t_data *cub, double x, double y)
 		return (false);
 	if (x >= cub->map->width - 1.25 || y >= cub->map->height - 0.25)
 		return (false);
-	if (cub->map->matriz[(int)y][(int)x] != '0')
+	if (cub->map->matriz[(int)(y - 0.01)][(int)(x - 0.01)] != '0')
 		return (false);
 	cub->control.position.x = x;
 	cub->control.position.y = y;
