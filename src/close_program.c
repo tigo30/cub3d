@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:52:14 by joandre-          #+#    #+#             */
-/*   Updated: 2025/03/09 01:54:30 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/03/09 17:05:23 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ void	close_program(t_data *cub, bool error)
 	clean_game_assets(cub);
 	if (!error)
 		exit(EXIT_SUCCESS);
-	perror("cub3d error");
+	perror("Error\ncub3d");
 	exit(EXIT_FAILURE);
 }

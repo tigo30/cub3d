@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 20:01:05 by joandre-          #+#    #+#             */
-/*   Updated: 2025/03/09 03:04:02 by joandre-         ###   ########.fr       */
+/*   Updated: 2025/03/09 16:54:33 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ static bool	is_valid_move(t_data *cub, double x, double y)
 		return (false);
 	if (x >= cub->map->width - 1.25 || y >= cub->map->height - 0.25)
 		return (false);
-	if (cub->map->matriz[(int)(y - 0.1)][(int)(x - 0.1)] != '0')
-		return (false);
-	cub->control.position.x = x;
-	cub->control.position.y = y;
-	return (true);
+	if (cub->map->matriz[(int)(y - 0.1)][(int)(x - 0.1)] == '0'
+		|| cub->map->matriz[(int)(y - 0.1)][(int)(x - 0.1)] == ' ')
+	{
+		cub->control.position.x = x;
+		cub->control.position.y = y;
+		return (true);
+	}
+	return (false);
 }
 
 bool	move_player(int keysym, t_data *cub)
