@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:53:01 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/03/02 19:20:35 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/08 22:47:59 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_fifo	*get_file_content(char *filename)
 		return (NULL);
 	}
 	line = get_next_line(fd);
+	if (!line)
+		return (fifo_free(file_content), NULL);
 	while (line)
 	{
 		remove_nl(line);

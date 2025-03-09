@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:23:42 by tgrunho-          #+#    #+#             */
-/*   Updated: 2025/03/02 19:21:29 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/08 22:49:01 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_map	*get_map(char *filename)
 	if (!map_file->file_content)
 	{
 		free_map(map_file);
-		error("Erro- file content");
+		error("Error file content");
 	}
 	check_textures(map_file);
 	check_map(map_file);

@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:00:31 by joandre-          #+#    #+#             */
-/*   Updated: 2025/03/02 19:44:06 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/08 22:35:48 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void	render_display(t_data *cub)
 	ft_bzero(&img, sizeof(img));
 	img.img = mlx_new_image(cub->init, WIDTH, HEIGHT);
 	if (!img.img)
-		close_program(cub);
+		close_program(cub, true);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp,
 			&img.size_line, &img.endian);
 	if (!img.addr)
-		close_program(cub);
+		close_program(cub, true);
 	y = -1;
 	while (++y < HEIGHT)
 	{

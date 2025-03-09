@@ -6,7 +6,7 @@
 /*   By: tgrunho- <tgrunho-@student.42.fr>>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 17:34:55 by joandre-          #+#    #+#             */
-/*   Updated: 2025/03/02 19:21:54 by tgrunho-         ###   ########.fr       */
+/*   Updated: 2025/03/09 01:54:05 by joandre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 static int	mouse_close(t_data *cub)
 {
-	close_program(cub);
-	exit(EXIT_SUCCESS);
+	close_program(cub, false);
+	return (EXIT_SUCCESS);
 }
 
 static int	key_close(int keysym, t_data *cub)
 {
 	if (keysym == XK_Escape)
-	{
-		close_program(cub);
-		exit(EXIT_SUCCESS);
-	}
+		close_program(cub, false);
 	return (EXIT_FAILURE);
 }
 
@@ -33,6 +30,8 @@ int	render(t_data *cub)
 	if (ft_memcmp(cub->player, &cub->control, sizeof(t_player)))
 	{
 		cub->frame = init_frame();
+		if (!cub->frame)
+			close_program(cub, true);
 		*cub->player = cub->control;
 		raycasting(cub);
 		render_display(cub);
